@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 4.0.0)
-# project(knuth LANGUAGES CXX)
-#
-# add_subdirectory(permutation-l)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAX_CXX_STANDARD_REQUIRED ON)
+project(algos VERSION 0.0.1 DESCRIPTION "Compendium of algos" LANGUAGES C CXX)
 
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" PATH_TO_CMAKELISTS_TXT)
@@ -10,5 +11,7 @@ if(EXISTS "${PATH_TO_CMAKELISTS_TXT}")
         message(FATAL_ERROR "Run CMake from a build subdirectory! \"mkdir build ; cd build ; cmake ..\" \
     Some junk files were created in this folder (CMakeCache.txt, CMakeFiles); you should delete those.")
 endif()
-# cmake_path(CONVERT "${PROJECT_BINARY_DIR}/CMakeLists.txt" TO_CMAKE_PATH_LIST PATH_TO_CMAKE_LIST)
-# message("${PATH_TO_CMAKE_LIST}")
+
+# we will enable_testing when we have a test dir, which will allow us to run ctest
+#enable_testing()
+
