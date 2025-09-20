@@ -1,8 +1,15 @@
+#include <cstdint>
+
+// extern C so that compiler doesn't mangle names
 extern "C" {
+// extern signals to compiler that __heap_base is provided somewhere else, in
+// this case link time
 extern unsigned char __heap_base; // tiny bump allocator
-static unsigned int bump = (unsigned int)&__heap_base;
+static uintptr_t bump = (uintptr_t)&__heap_base;
 void *alloc(int size) {
   unsigned int p = bump;
+  // we round up to neartest 8 bits
+  // ~7 is mask of lower 3 bits
   bump += (size + 7) & ~7;
   return (void *)p;
 }
