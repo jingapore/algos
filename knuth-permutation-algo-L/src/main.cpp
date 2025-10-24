@@ -7,7 +7,7 @@ extern "C" {
 extern unsigned char __heap_base; // tiny bump allocator
 static uintptr_t bump = (uintptr_t)&__heap_base;
 void *alloc(int size) {
-  unsigned int p = bump;
+  uintptr_t p = bump;
   // we round up to neartest 8 bits
   // ~7 is mask of lower 3 bits
   bump += (size + 7) & ~7;
