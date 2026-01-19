@@ -19,6 +19,18 @@ void *alloc(int size) {
 }
 #endif
 
+enum CalculationState: int32_t {
+    L1_COMPARE = 1,
+    L2_COMPARE = 2,
+    L3_SWAP  = 3,
+    L4_SWAP = 4,
+    DONE = 5,
+};
+
+int calculate_and_record() {
+
+}
+
 // events are triples of int32: {code,i,j}
 // code: 1=L1 compare, 2=L2 compare, 3=L3 swap, 4=L4 swap, 9=done
 int next_perm_trace(int *data, int n, int *out, int out_cap_triples) {

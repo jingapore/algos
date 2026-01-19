@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 4.0.0)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAX_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 20)
 project(algos VERSION 0.0.1 DESCRIPTION "Compendium of algos" LANGUAGES C CXX)
 
 if (DEFINED EMSCRIPTEN)
@@ -17,4 +16,9 @@ endif()
 # we will enable_testing when we have a test dir, which will allow us to run ctest
 #enable_testing()
 
+add_executable(omnibus_program src/main.cpp)
+
+# produces library that we'll consume in omnibus_program
 add_subdirectory(knuth-permutation-algo-L)
+
+target_link_libraries(omnibus_program PRIVATE knuth_permutation_algo_l)
