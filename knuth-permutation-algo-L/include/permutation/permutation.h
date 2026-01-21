@@ -5,7 +5,9 @@
 
 namespace permutation {
 // TODO: see if we have concepts to constrain randomit
-template <class RandomIt, class Less>
+template <std::random_access_iterator RandomIt, class Less>
+  requires std::indirect_strict_weak_order<Less, RandomIt>
+
 int32_t find_pivot_index_traced(RandomIt first, RandomIt last, Less less,
                                 TraceSink sink);
 template <class RandomIt, class Less = std::less<>>
@@ -29,3 +31,5 @@ bool next_permutation_traced(RandomIt first, RandomIt last, TraceSink sink,
 // bool next_permutation_inplace(int *data, int32_t n);
 // bool next_permutation_inplace_traced(int *data, int32_t n, TraceSink sink);
 } // namespace permutation
+
+#include "permutation/permutation_impl.h"
