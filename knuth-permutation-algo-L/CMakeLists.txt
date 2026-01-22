@@ -1,4 +1,4 @@
-set(SOURCES src/permutation.cpp)
+set(SOURCES src/permutation.cpp  src/trace.cpp)
 set(TEST_SOURCES tests/test_permutation.cpp)
 add_library(knuth_permutation_algo_l ${SOURCES})
 

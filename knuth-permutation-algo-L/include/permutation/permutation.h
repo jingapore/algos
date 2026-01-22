@@ -4,12 +4,12 @@
 #include <iterator>
 
 namespace permutation {
-// TODO: see if we have concepts to constrain randomit
+
 template <std::random_access_iterator RandomIt, class Less>
   requires std::indirect_strict_weak_order<Less, RandomIt>
-
 int32_t find_pivot_index_traced(RandomIt first, RandomIt last, Less less,
                                 TraceSink sink);
+
 template <class RandomIt, class Less = std::less<>>
 bool next_permutation_traced(RandomIt first, RandomIt last, TraceSink sink,
                              Less less) {
