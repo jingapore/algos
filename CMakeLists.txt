@@ -13,11 +13,6 @@ if(EXISTS "${PATH_TO_CMAKELISTS_TXT}")
     Some junk files were created in this folder (CMakeCache.txt, CMakeFiles); you should delete those.")
 endif()
 
-# we will enable_testing when we have a test dir, which will allow us to run ctest
-#enable_testing()
-
-add_executable(omnibus_program src/main.cpp)
-
 # include CTest outside of if(BUILD_TESTING) check cos
 # CTest defines option for BUILD_TESTING
 include(CTest)
@@ -31,7 +26,11 @@ if(BUILD_TESTING)
     include(GoogleTest)
 endif()
 
-# produces library that we'll consume in omnibus_program
-add_subdirectory(knuth-permutation-algo-L)
+if(EMSCRIPTEN)
+    add_subdirectory(knuth-permutation-algo-L)
+else()
+    add_executable(omnibus_program src/main.cpp)
+    add_subdirectory(knuth-permutation-algo-L)
+    target_link_libraries(omnibus_program PRIVATE knuth_permutation_algo_l)
+endif()
 
-target_link_libraries(omnibus_program PRIVATE knuth_permutation_algo_l)
