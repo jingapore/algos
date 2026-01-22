@@ -26,7 +26,7 @@ if(BUILD_TESTING)
     include(GoogleTest)
 endif()
 
-if(EMSCRIPTEN)
+if (EMSCRIPTEN)
     add_subdirectory(knuth-permutation-algo-L)
 else()
     add_executable(omnibus_program src/main.cpp)
