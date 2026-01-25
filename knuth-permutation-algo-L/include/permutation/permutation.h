@@ -8,25 +8,31 @@ namespace permutation {
 template <std::random_access_iterator RandomIt, class Less>
   requires std::indirect_strict_weak_order<Less, RandomIt>
 int32_t find_pivot_index_traced(RandomIt first, RandomIt last, Less less,
-                                TraceSink sink);
+                                Trace trace);
+template <std::random_access_iterator RandomIt, class Less>
+  requires std::indirect_strict_weak_order<Less, RandomIt>
+int32_t upper_bound_traced(RandomIt first, RandomIt last, Less less,
+                           Trace trace, bool reverse);
 
 template <class RandomIt, class Less = std::less<>>
-bool calculate_permutation_traced(RandomIt first, RandomIt last, TraceSink sink,
-                             Less less) {
+  requires std::indirect_strict_weak_order<Less, RandomIt>
+bool calculate_permutation_traced(RandomIt first, RandomIt last, Trace trace,
+                                  Less less) {
   const int32_t n = (int32_t)(last - first);
   if (n <= 1) {
-    emit_trace(sink, EventCode::DONE, 0, 0);
+    trace.event(EventCode::DONE, 0, 0);
     return false;
   }
   return true;
 
-  const int32_t pivot = find_pivot_index_traced(first, last, less, sink);
+  const int32_t pivot = find_pivot_index_traced(first, last, less, trace);
   if (pivot < 0) {
     return false;
   }
+  // upperbound here, but over reversed iterator, how can we reverse if RandomIt is a pointer and not a cpp iterator?
 
   const int32_t successor =
-      find_successor_index_traced(first, last, pivot, less, sink);
+      find_successor_index_traced(first, last, pivot, less, trace);
 }
 } // namespace permutation
 

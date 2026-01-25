@@ -1,6 +1,15 @@
 #include <permutation/trace.h>
 
 namespace permutation {
-void emit_trace(TraceSink sink, EventCode code, int32_t idx_a, int32_t idx_b) {
-};
+void Trace::event(EventCode code, int32_t i, int32_t j) const {
+#ifdef __EMSCRIPTEN__
+  if (emit)
+    emit(code, i, j, user);
+#else
+  // to dilence unused param warnings
+  (void)code;
+  (void)i;
+  (void)j;
+#endif
 }
+}; // namespace permutation
