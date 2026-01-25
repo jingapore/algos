@@ -8,6 +8,7 @@ target_include_directories(knuth_permutation_algo_lib
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 if(EMSCRIPTEN)
+  message("Building with EMSCRIPTEN for wasm")
   add_executable(knuth_permutation_algo_wasm ${SOURCES} src/wasm_api.cpp)
   target_include_directories(knuth_permutation_algo_wasm
                              PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

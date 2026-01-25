@@ -11,7 +11,7 @@ int32_t find_pivot_index_traced(RandomIt first, RandomIt last, Less less,
                                 TraceSink sink);
 
 template <class RandomIt, class Less = std::less<>>
-bool next_permutation_traced(RandomIt first, RandomIt last, TraceSink sink,
+bool calculate_permutation_traced(RandomIt first, RandomIt last, TraceSink sink,
                              Less less) {
   const int32_t n = (int32_t)(last - first);
   if (n <= 1) {
@@ -28,8 +28,6 @@ bool next_permutation_traced(RandomIt first, RandomIt last, TraceSink sink,
   const int32_t successor =
       find_successor_index_traced(first, last, pivot, less, sink);
 }
-// bool next_permutation_inplace(int *data, int32_t n);
-// bool next_permutation_inplace_traced(int *data, int32_t n, TraceSink sink);
 } // namespace permutation
 
 #include "permutation/permutation_impl.h"
