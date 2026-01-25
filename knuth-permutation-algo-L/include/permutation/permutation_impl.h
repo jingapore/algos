@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "permutation/trace.h"
 #include <cstdint>
 #include <iterator>
@@ -27,7 +28,7 @@ template <std::random_access_iterator RandomIt, class Less>
 RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
                             const std::iter_value_t<RandomIt> &value,
                             const Less less, Trace trace, const bool reverse) {
-  const int n = std::distance(first, last);
+  const int n = std::distance(begin, last);
   // TODO: include trace
   auto get_normalised_idx = [n, reverse](RandomIt it) { return 1; };
   auto upper_bound_impl =
@@ -53,7 +54,9 @@ RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
     auto rfirst = std::make_reverse_iterator(last);
     auto rlast = std::make_reverse_iterator(first);
     auto rub = upper_bound_impl(rfirst, rlast);
-    return rub.base();
+    // -1 is to handle how reverse iterators translate to 
+    // forward iterators https://stackoverflow.com/questions/71366118/why-is-reverse-iteratorbase-offset
+    return rub.base()-1;
   }
 };
 } // namespace permutation
