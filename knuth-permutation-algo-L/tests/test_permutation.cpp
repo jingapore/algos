@@ -6,8 +6,13 @@
 
 TEST(KnuthPermutationAlgoTest, ArrayManipulation) {
   std::vector<int> v{1, 2, 3, -4, -5, -6};
-  int32_t pivot_idx = permutation::find_pivot_index_traced(
-      v.begin(), v.end(), std::less<int>{}, permutation::TraceSink{});
+  auto pivot_itr = permutation::find_pivot_traced(
+      v.begin(), v.end(), std::less<int>{}, permutation::Trace{});
 
-  ASSERT_EQ(pivot_idx, 1);
+  ASSERT_EQ(distance(v.begin(), pivot_itr), 1);
+
+  auto swap_itr = permutation::upper_bound_traced(
+      v.begin(), pivot_itr + 1, v.end(), *pivot_itr, std::less<>{},
+      permutation::Trace{}, true);
+  ASSERT_EQ(distance(v.begin(), swap_itr), 2);
 }
