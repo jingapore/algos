@@ -13,8 +13,12 @@ if(EMSCRIPTEN)
   target_include_directories(knuth_permutation_algo_wasm
                              PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
   set_target_properties(
-    knuth_permutation_algo_wasm PROPERTIES OUTPUT_NAME "knuth_permutation_algo"
-                                           SUFFIX ".js")
+    knuth_permutation_algo_wasm
+    PROPERTIES OUTPUT_NAME "knuth_permutation_algo"
+               SUFFIX ".mjs"
+               RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
+  set(DIST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist")
+  file(MAKE_DIRECTORY "${DIST_DIR}")
   target_link_options(
     knuth_permutation_algo_wasm
     PRIVATE
@@ -22,7 +26,7 @@ if(EMSCRIPTEN)
     "-sEXPORT_ES6=1"
     "--bind"
     "-sEXPORTED_FUNCTIONS=['_malloc', '_free']"
-    "--embind-emit-tsd=index.d.ts")
+    "--emit-tsd=${DIST_DIR}/index.d.ts")
 endif()
 
 if(BUILD_TESTING)

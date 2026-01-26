@@ -13,7 +13,7 @@ class TraceEvent {
 public:
   EventCode code;
   int32_t idx_a;
-  int32_t indx_b;
+  int32_t idx_b;
 };
 struct Trace {
   // user is what emit will mutate

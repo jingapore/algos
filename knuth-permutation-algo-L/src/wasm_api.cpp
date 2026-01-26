@@ -33,5 +33,20 @@ permute_array(std::vector<int32_t> values) {
 }
 
 EMSCRIPTEN_BINDINGS(permutation_module) {
+  emscripten::enum_<permutation::EventCode>("EventCode")
+      .value("L1_COMPARE", permutation::EventCode::L1_COMPARE)
+      .value("L2_COMPARE", permutation::EventCode::L2_COMPARE)
+      .value("L3_SWAP", permutation::EventCode::L3_SWAP)
+      .value("L4_SWAP", permutation::EventCode::L4_SWAP)
+      .value("DONE", permutation::EventCode::DONE);
+
+  emscripten::value_object<permutation::TraceEvent>("TraceEvent")
+      .field("code", &permutation::TraceEvent::code)
+      .field("idx_a", &permutation::TraceEvent::idx_a)
+      .field("idx_b", &permutation::TraceEvent::idx_b);
+
+  emscripten::register_vector<permutation::TraceEvent>("TraceEventVector");
+  emscripten::register_vector<std::int32_t>("Int32Vector");
+
   emscripten::function("permute_array", &permute_array);
 }
