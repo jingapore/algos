@@ -8,7 +8,9 @@ target_include_directories(knuth_permutation_algo_lib
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 if(EMSCRIPTEN)
-  message("Building with EMSCRIPTEN for wasm")
+  set(DIST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist")
+  message(
+    "Building with EMSCRIPTEN for wasm with artifacts saved in ${DIST_DIR}")
   add_executable(knuth_permutation_algo_wasm ${SOURCES} src/wasm_api.cpp)
   target_include_directories(knuth_permutation_algo_wasm
                              PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -17,7 +19,6 @@ if(EMSCRIPTEN)
     PROPERTIES OUTPUT_NAME "knuth_permutation_algo"
                SUFFIX ".mjs"
                RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
-  set(DIST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist")
   file(MAKE_DIRECTORY "${DIST_DIR}")
   target_link_options(
     knuth_permutation_algo_wasm
