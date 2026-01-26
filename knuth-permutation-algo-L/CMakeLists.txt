@@ -16,8 +16,13 @@ if(EMSCRIPTEN)
     knuth_permutation_algo_wasm PROPERTIES OUTPUT_NAME "knuth_permutation_algo"
                                            SUFFIX ".js")
   target_link_options(
-    knuth_permutation_algo_wasm PRIVATE "-sMODULARIZE=1" "-sEXPORT_ES6=1"
-    "-sEXPORTED_FUNCTIONS=['_malloc', '_free']")
+    knuth_permutation_algo_wasm
+    PRIVATE
+    "-sMODULARIZE=1"
+    "-sEXPORT_ES6=1"
+    "--bind"
+    "-sEXPORTED_FUNCTIONS=['_malloc', '_free']"
+    "--embind-emit-tsd=index.d.ts")
 endif()
 
 if(BUILD_TESTING)
