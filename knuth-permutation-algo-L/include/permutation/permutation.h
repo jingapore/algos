@@ -29,15 +29,6 @@ bool calculate_permutation_traced(RandomIt first, RandomIt last, Trace trace,
   }
   return true;
 
-  const int32_t pivot = find_pivot_traced(first, last, less, trace);
-  if (pivot < 0) {
-    return false;
-  }
-  // upperbound here, but over reversed iterator, how can we reverse if RandomIt
-  // is a pointer and not a cpp iterator?
-
-  const int32_t successor =
-      find_successor_index_traced(first, last, pivot, less, trace);
 }
 } // namespace permutation
 

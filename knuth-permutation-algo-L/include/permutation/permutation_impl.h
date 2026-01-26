@@ -70,7 +70,6 @@ void reverse_traced(RandomIt begin, RandomIt first, RandomIt last,
     return;
   --right;
   while (left < right) {
-    /*     std::cout << *left << std::endl; */
     std::iter_swap(left, right);
     ++left;
     --right;

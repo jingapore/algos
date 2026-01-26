@@ -25,7 +25,7 @@ permute_array(std::vector<int32_t> values) {
   trace.emit = nullptr;
   trace.user = nullptr;
 #endif
-  calculate_permutation_traced(values.begin(), values.end(), trace,
+  permutation::calculate_permutation_traced(values.begin(), values.end(), trace,
                                std::less<>{});
   return events;
 }
