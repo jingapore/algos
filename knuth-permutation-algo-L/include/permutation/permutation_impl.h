@@ -1,7 +1,7 @@
 #pragma once
-#include <iostream>
 #include "permutation/trace.h"
 #include <cstdint>
+#include <iostream>
 #include <iterator>
 
 namespace permutation {
@@ -14,8 +14,8 @@ RandomIt find_pivot_traced(const RandomIt first, const RandomIt last,
     return last;
   auto pivot = last - 2;
   while (pivot != first) {
-    trace.event(EventCode::L1_COMPARE, distance(first, pivot),
-                distance(first, pivot) + 1);
+    trace.event(EventCode::L1_COMPARE,std::distance(first, pivot),
+                std::distance(first, pivot) + 1);
     if (less(*pivot, *(pivot + 1)))
       return pivot;
     --pivot;
@@ -54,9 +54,26 @@ RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
     auto rfirst = std::make_reverse_iterator(last);
     auto rlast = std::make_reverse_iterator(first);
     auto rub = upper_bound_impl(rfirst, rlast);
-    // -1 is to handle how reverse iterators translate to 
-    // forward iterators https://stackoverflow.com/questions/71366118/why-is-reverse-iteratorbase-offset
-    return rub.base()-1;
+    // -1 is to handle how reverse iterators translate to
+    // forward iterators
+    // https://stackoverflow.com/questions/71366118/why-is-reverse-iteratorbase-offset
+    return rub.base() - 1;
+  }
+};
+
+template <std::random_access_iterator RandomIt>
+void reverse_traced(RandomIt begin, RandomIt first, RandomIt last,
+                    Trace trace) {
+  RandomIt left = first;
+  RandomIt right = last;
+  if (left == right)
+    return;
+  --right;
+  while (left < right) {
+    /*     std::cout << *left << std::endl; */
+    std::iter_swap(left, right);
+    ++left;
+    --right;
   }
 };
 } // namespace permutation
