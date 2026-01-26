@@ -10,6 +10,7 @@ enum class EventCode : int32_t {
   DONE = 9,
 };
 class TraceEvent {
+public:
   EventCode code;
   int32_t idx_a;
   int32_t indx_b;

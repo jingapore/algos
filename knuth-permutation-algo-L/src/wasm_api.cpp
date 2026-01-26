@@ -1,9 +1,10 @@
+#include "permutation/permutation.h"
 #include <cstdint>
 #include <vector>
 
 #include <emscripten/bind.h>
-#include <permutation/trace.h>
 #include <permutation/permutation.h>
+#include <permutation/trace.h>
 
 std::vector<permutation::TraceEvent>
 permute_array(std::vector<int32_t> values) {
@@ -17,16 +18,17 @@ permute_array(std::vector<int32_t> values) {
   trace.emit = [](permutation::EventCode code, int32_t i, int32_t j,
                   void *user) {
     auto *out = static_cast<std::vector<permutation::TraceEvent> *>(user);
-    out->emplace_back(code, i, j);
-  } trace.user = &events;
+    out->push_back(permutation::TraceEvent{code, i, j});
+  };
+  trace.user = &events;
 #else
-  // in struct Trace,if emit is nullptr then when we call trace.event 
+  // in struct Trace,if emit is nullptr then when we call trace.event
   // emit does nothing
   trace.emit = nullptr;
   trace.user = nullptr;
 #endif
   permutation::calculate_permutation_traced(values.begin(), values.end(), trace,
-                               std::less<>{});
+                                            std::less<>{});
   return events;
 }
 

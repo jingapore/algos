@@ -15,8 +15,7 @@ RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
                             const Less less, Trace trace, const bool reverse);
 
 template <std::random_access_iterator RandomIt>
-void reverse_traced(RandomIt begin, RandomIt first, RandomIt last,
-                        Trace trace);
+void reverse_traced(RandomIt begin, RandomIt first, RandomIt last, Trace trace);
 
 template <class RandomIt, class Less = std::less<>>
   requires std::indirect_strict_weak_order<Less, RandomIt>
@@ -27,8 +26,9 @@ bool calculate_permutation_traced(RandomIt first, RandomIt last, Trace trace,
     trace.event(EventCode::DONE, 0, 0);
     return false;
   }
+  find_pivot_traced(first, last, less, trace);
+  trace.event(EventCode::DONE, 0, 0);
   return true;
-
 }
 } // namespace permutation
 
