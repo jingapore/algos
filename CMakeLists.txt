@@ -8,7 +8,7 @@ project(
   LANGUAGES C CXX)
 
 if(DEFINED EMSCRIPTEN)
-
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 endif()
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt"
