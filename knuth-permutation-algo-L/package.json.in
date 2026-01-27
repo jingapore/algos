@@ -1,8 +1,8 @@
 {
-  "name": "@jingapore/@TARGET_NAME@",
+  "name": "@NPM_SCOPE@/@TARGET_NAME@",
   "version": "@PROJECT_VERSION@",
   "type": "module",
   "main": "@NPM_KEY_MAIN@",
   "types": "@NPM_KEY_TYPES@",
-  "files": ["@PKG_JSON_FILES_LIST@"]
+  "files": [@PKG_JSON_FILES_LIST@]
 }
