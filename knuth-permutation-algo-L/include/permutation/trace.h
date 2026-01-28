@@ -3,10 +3,10 @@
 
 namespace permutation {
 enum class EventCode : int32_t {
-  L1_COMPARE = 1,
-  L2_COMPARE = 2,
-  L3_SWAP = 3,
-  L4_SWAP = 4,
+  STAGE1_FIND_NON_DECREASING_SEQ_BREAKPOINT_COMPARE = 1,
+  STAGE2_FIND_PIVOT_COMPARE = 2,
+  STAGE3_SWAP_WITH_PIVOT = 3,
+  STAGE4_REVERSE_SWAP = 4,
   DONE = 9,
 };
 class TraceEvent {
