@@ -14,8 +14,8 @@ RandomIt find_pivot_traced(const RandomIt first, const RandomIt last,
     return last;
   auto pivot = last - 2;
   while (pivot != first) {
-    trace.event(EventCode::L1_COMPARE,std::distance(first, pivot),
-                std::distance(first, pivot) + 1);
+    trace.event(EventCode::STAGE1_FIND_NON_DECREASING_SEQ_BREAKPOINT_COMPARE,
+                std::distance(first, pivot), std::distance(first, pivot) + 1);
     if (less(*pivot, *(pivot + 1)))
       return pivot;
     --pivot;

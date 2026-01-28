@@ -34,10 +34,14 @@ permute_array(std::vector<int32_t> values) {
 
 EMSCRIPTEN_BINDINGS(permutation_module) {
   emscripten::enum_<permutation::EventCode>("EventCode")
-      .value("L1_COMPARE", permutation::EventCode::L1_COMPARE)
-      .value("L2_COMPARE", permutation::EventCode::L2_COMPARE)
-      .value("L3_SWAP", permutation::EventCode::L3_SWAP)
-      .value("L4_SWAP", permutation::EventCode::L4_SWAP)
+      .value("STAGE1_FIND_NON_DECREASING_SEQ_BREAKPOINT_COMPARE",
+             permutation::EventCode::
+                 STAGE1_FIND_NON_DECREASING_SEQ_BREAKPOINT_COMPARE)
+      .value("STAGE2_FIND_PIVOT_COMPARE",
+             permutation::EventCode::STAGE2_FIND_PIVOT_COMPARE)
+      .value("STAGE3_SWAP_WITH_PIVOT",
+             permutation::EventCode::STAGE3_SWAP_WITH_PIVOT)
+      .value("STAGE4_REVERSE_SWAP", permutation::EventCode::STAGE4_REVERSE_SWAP)
       .value("DONE", permutation::EventCode::DONE);
 
   emscripten::value_object<permutation::TraceEvent>("TraceEvent")
