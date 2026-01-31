@@ -30,16 +30,15 @@ template <std::random_access_iterator RandomIt, typename T, typename Less,
 RandomIt upper_bound_impl(RandomIt first, RandomIt last, const T &value,
                           Less less, Tracer trace, Mapper map_idx) {
 
-  using It = decltype(first);
-  using D = std::iter_difference_t<It>;
-  It left = first;
-  It right = last;
+  using D = std::iter_difference_t<RandomIt>;
+  RandomIt left = first;
+  RandomIt right = last;
 
   trace.event(EventCode::STAGE2_FIND_PIVOT_COMPARE, map_idx(left),
               map_idx(right));
 
   while (left < right) {
-    It mid = left + (right - left) / 2;
+    RandomIt mid = left + (right - left) / 2;
     if (less(value, *mid)) {
       right = mid;
     } else {
@@ -59,11 +58,17 @@ RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
   auto get_normalised_idx = [n, reverse](RandomIt it) { return 1; };
 
   if (!reverse) {
-    return upper_bound_impl(first, last);
+    auto identity_map = [&begin](RandomIt it) -> int32_t {
+      return (int32_t)std::distance(begin, it);
+    };
+    return upper_bound_impl(first, last, value, less, trace, identity_map);
   } else {
+    auto reverse_map = [&begin](std::reverse_iterator<RandomIt> it) -> int32_t {
+      return (int32_t)std::distance(begin, it.base()) - 1;
+    };
     auto rfirst = std::make_reverse_iterator(last);
     auto rlast = std::make_reverse_iterator(first);
-    auto rub = upper_bound_impl(rfirst, rlast);
+    auto rub = upper_bound_impl(rfirst, rlast, value, less, trace, reverse_map);
     // -1 is to handle how reverse iterators translate to
     // forward iterators
     // https://stackoverflow.com/questions/71366118/why-is-reverse-iteratorbase-offset

@@ -1,18 +1,10 @@
 #pragma once
+#include "permutation/permutation_impl.h"
 #include "permutation/trace.h"
 #include <cstdint>
 #include <iterator>
 
 namespace permutation {
-
-template <std::random_access_iterator RandomIt, class Less>
-  requires std::indirect_strict_weak_order<Less, RandomIt>
-RandomIt find_pivot_traced(RandomIt first, RandomIt last, const Less less,
-                           Trace trace);
-template <std::random_access_iterator RandomIt, class Less>
-  requires std::indirect_strict_weak_order<Less, RandomIt>
-RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
-                            const Less less, Trace trace, const bool reverse);
 
 template <std::random_access_iterator RandomIt>
 void reverse_traced(RandomIt begin, RandomIt first, RandomIt last, Trace trace);
@@ -31,5 +23,3 @@ bool calculate_permutation_traced(RandomIt first, RandomIt last, Trace trace,
   return true;
 }
 } // namespace permutation
-
-#include "permutation/permutation_impl.h"
