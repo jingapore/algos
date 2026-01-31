@@ -37,8 +37,8 @@ EMSCRIPTEN_BINDINGS(permutation_module) {
       .value("STAGE1_FIND_NON_DECREASING_SEQ_BREAKPOINT_COMPARE",
              permutation::EventCode::
                  STAGE1_FIND_NON_DECREASING_SEQ_BREAKPOINT_COMPARE)
-      .value("STAGE2_FIND_PIVOT_COMPARE",
-             permutation::EventCode::STAGE2_FIND_PIVOT_COMPARE)
+      .value("STAGE2_FIND_SWAPPOINT_COMPARE",
+             permutation::EventCode::STAGE2_FIND_SWAPPOINT_COMPARE)
       .value("STAGE3_SWAP_WITH_PIVOT",
              permutation::EventCode::STAGE3_SWAP_WITH_PIVOT)
       .value("STAGE4_REVERSE_SWAP", permutation::EventCode::STAGE4_REVERSE_SWAP)

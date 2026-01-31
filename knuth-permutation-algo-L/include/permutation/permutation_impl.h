@@ -34,9 +34,8 @@ RandomIt upper_bound_impl(RandomIt first, RandomIt last, const T &value,
   RandomIt left = first;
   RandomIt right = last;
 
-  trace.event(EventCode::STAGE2_FIND_PIVOT_COMPARE, map_idx(left),
+  trace.event(EventCode::STAGE2_FIND_SWAPPOINT_COMPARE, map_idx(left),
               map_idx(right));
-
   while (left < right) {
     RandomIt mid = left + (right - left) / 2;
     if (less(value, *mid)) {
