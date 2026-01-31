@@ -3,6 +3,7 @@
 #include <array>
 #include <functional>
 #include <gtest/gtest.h>
+#include <iostream>
 #include <iterator>
 
 // TODO: use test fixtures
@@ -29,4 +30,14 @@ TEST(KnuthPermutationAlgoTest, ArrayManipulation) {
   constexpr std::array<int, 4> expected_arr{-6, -5, -4, 2};
   ASSERT_TRUE(std::equal(pivot_itr + 1, v.end(), expected_arr.begin(),
                          expected_arr.end()));
+
+  std::array<int, 6> input_arr_it{4, 5, 4, 3, 2, 1};
+  permutation::calculate_permutation_traced(
+      input_arr_it.begin(), input_arr_it.end(), permutation::Trace{},
+      std::less<>{});
+
+  constexpr std::array<int, 6> expected_arr_it{5, 1, 2, 3, 4, 4};
+
+  ASSERT_TRUE(std::equal(input_arr_it.begin(), input_arr_it.end(),
+                         expected_arr_it.begin(), expected_arr_it.end()));
 }
