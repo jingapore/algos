@@ -18,7 +18,10 @@ bool calculate_permutation_traced(RandomIt first, RandomIt last, Trace trace,
     trace.event(EventCode::DONE, 0, 0);
     return false;
   }
-  find_pivot_traced(first, last, less, trace);
+  auto pivot_it = find_pivot_traced(first, last, less, trace);
+  auto swappoint_it = upper_bound_traced(first, pivot_it + 1, last, *pivot_it,
+                                         less, trace, true);
+  reverse_traced(first, pivot_it + 1, last, trace);
   trace.event(EventCode::DONE, 0, 0);
   return true;
 }
