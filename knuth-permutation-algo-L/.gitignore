@@ -2,3 +2,4 @@ dist/*
 
 # ignore because cmake generates package.json from package.json.in
 package.json
+.npmrc
