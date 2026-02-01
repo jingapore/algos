@@ -8,16 +8,47 @@ target_include_directories(knuth_permutation_algo_lib
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 if(EMSCRIPTEN)
-  message("Building with EMSCRIPTEN for wasm")
+
+  include(NpmPackaging)
+
+  set(DIST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist")
+  file(MAKE_DIRECTORY "${DIST_DIR}")
+
+  set(WASM_OUTPUT_NAME "knuth_permutation")
+
+  message(
+    STATUS
+      "Building with EMSCRIPTEN for wasm with artifacts saved in ${DIST_DIR}")
+
   add_executable(knuth_permutation_algo_wasm ${SOURCES} src/wasm_api.cpp)
   target_include_directories(knuth_permutation_algo_wasm
                              PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  # these properties are used in util function to generate npm package.json
   set_target_properties(
-    knuth_permutation_algo_wasm PROPERTIES OUTPUT_NAME "knuth_permutation_algo"
-                                           SUFFIX ".js")
+    knuth_permutation_algo_wasm
+    PROPERTIES NPM_KEY_MAIN "dist/${WASM_OUTPUT_NAME}.mjs"
+               NPM_KEY_TYPES "dist/${WASM_OUTPUT_NAME}.d.ts"
+               NPM_KEY_WASM "dist/${WASM_OUTPUT_NAME}.wasm")
+
+  set_target_properties(
+    knuth_permutation_algo_wasm
+    PROPERTIES OUTPUT_NAME "${WASM_OUTPUT_NAME}"
+               SUFFIX ".mjs"
+               RUNTIME_OUTPUT_DIRECTORY "${DIST_DIR}")
+
+  generate_npm_package(knuth_permutation_algo_wasm)
+
   target_link_options(
-    knuth_permutation_algo_wasm PRIVATE "-sMODULARIZE=1" "-sEXPORT_ES6=1"
-    "-sEXPORTED_FUNCTIONS=['_malloc', '_free']")
+    knuth_permutation_algo_wasm
+    PRIVATE
+    "-sMODULARIZE=1"
+    "-sEXPORT_ES6=1"
+    "--bind"
+    "-sEXPORTED_FUNCTIONS=['_malloc', '_free']"
+    "--emit-tsd=${DIST_DIR}/${WASM_OUTPUT_NAME}.d.ts"
+    "-sENVIRONMENT=web,node"
+    "-sWASM_ASYNC_COMPILATION=1")
+
 endif()
 
 if(BUILD_TESTING)

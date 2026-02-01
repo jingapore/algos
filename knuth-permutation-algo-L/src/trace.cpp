@@ -6,7 +6,7 @@ void Trace::event(EventCode code, int32_t i, int32_t j) const {
   if (emit)
     emit(code, i, j, user);
 #else
-  // to dilence unused param warnings
+  // to silence unused param warnings
   (void)code;
   (void)i;
   (void)j;
