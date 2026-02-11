@@ -34,9 +34,9 @@ RandomIt upper_bound_impl(RandomIt first, RandomIt last, const T &value,
   RandomIt left = first;
   RandomIt right = last;
 
-  trace.event(EventCode::STAGE2_FIND_SWAPPOINT_COMPARE, map_idx(left),
-              map_idx(right));
   while (left < right) {
+    trace.event(EventCode::STAGE2_FIND_SWAPPOINT_COMPARE, map_idx(left),
+                map_idx(right));
     RandomIt mid = left + (right - left) / 2;
     if (less(value, *mid)) {
       right = mid;
@@ -84,6 +84,8 @@ void reverse_traced(RandomIt begin, RandomIt first, RandomIt last,
     return;
   --right;
   while (left < right) {
+    trace.event(EventCode::STAGE3_SWAP_WITH_PIVOT, distance(begin, left),
+                distance(begin, right));
     std::iter_swap(left, right);
     ++left;
     --right;
