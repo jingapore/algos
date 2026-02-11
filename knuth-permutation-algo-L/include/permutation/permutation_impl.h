@@ -84,7 +84,7 @@ void reverse_traced(RandomIt begin, RandomIt first, RandomIt last,
     return;
   --right;
   while (left < right) {
-    trace.event(EventCode::STAGE3_SWAP_WITH_PIVOT, distance(begin, left),
+    trace.event(EventCode::STAGE4_REVERSE_SWAP, distance(begin, left),
                 distance(begin, right));
     std::iter_swap(left, right);
     ++left;
