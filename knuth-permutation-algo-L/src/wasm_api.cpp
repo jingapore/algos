@@ -35,8 +35,18 @@ permute_array(std::vector<int32_t> values) {
 }
 
 #ifdef IS_DEBUG
+template class std::vector<int>;
 int main() {
-    return 0;
+  std::vector<int> input_vec;
+  // so that we can run expr within lldb
+  volatile bool force_symbols = false;
+  if (force_symbols) {
+    int x = 5;
+    input_vec.push_back(x);
+    input_vec.push_back(5);
+  }
+  std::vector<permutation::TraceEvent> result_vec = permute_array(input_vec);
+  return 0;
 }
 #endif
 

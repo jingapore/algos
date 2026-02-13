@@ -8,7 +8,7 @@ project(
   LANGUAGES C CXX)
 
 if(DEFINED EMSCRIPTEN)
-    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 endif()
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt"
@@ -42,3 +42,4 @@ else()
   add_subdirectory(knuth-permutation-algo-L)
   target_link_libraries(omnibus_program PRIVATE knuth_permutation_algo_lib)
 endif()
+
