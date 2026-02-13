@@ -15,7 +15,7 @@ TEST(KnuthPermutationAlgoTest, ArrayManipulation) {
   ASSERT_EQ(std::distance(v.begin(), pivot_itr), 1);
 
   auto swap_itr = permutation::upper_bound_traced(
-      v.begin(), pivot_itr + 1, v.end(), *pivot_itr, std::less<>{},
+      v.begin(), pivot_itr + 1, v.end(), pivot_itr, std::less<>{},
       permutation::Trace{}, true);
   ASSERT_EQ(std::distance(v.begin(), swap_itr), 2);
 

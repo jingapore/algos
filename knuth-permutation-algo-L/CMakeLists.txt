@@ -7,6 +7,8 @@ add_library(knuth_permutation_algo_lib STATIC ${SOURCES})
 target_include_directories(knuth_permutation_algo_lib
                            PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+set(WASM_OUTPUT_NAME "knuth_permutation")
+
 if(EMSCRIPTEN)
 
   include(NpmPackaging)
@@ -14,13 +16,13 @@ if(EMSCRIPTEN)
   set(DIST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist")
   file(MAKE_DIRECTORY "${DIST_DIR}")
 
-  set(WASM_OUTPUT_NAME "knuth_permutation")
-
   message(
     STATUS
       "Building with EMSCRIPTEN for wasm with artifacts saved in ${DIST_DIR}")
 
   add_executable(knuth_permutation_algo_wasm ${SOURCES} src/wasm_api.cpp)
+  # TODO: see if we can have target_include_directories just use lib instead of
+  # specifying our dirs again
   target_include_directories(knuth_permutation_algo_wasm
                              PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
   # these properties are used in util function to generate npm package.json
@@ -49,6 +51,16 @@ if(EMSCRIPTEN)
     "-sENVIRONMENT=web,node"
     "-sWASM_ASYNC_COMPILATION=1")
 
+endif()
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(DEBUG_TARGET "${WASM_OUTPUT_NAME}_debug")
+  message(STATUS "Debug Build detected: Creating '${DEBUG_TARGET}' target.")
+  add_executable(${DEBUG_TARGET} src/wasm_api.cpp)
+  target_link_libraries(${DEBUG_TARGET} PRIVATE knuth_permutation_algo_lib)
+  target_compile_definitions(${DEBUG_TARGET} PRIVATE IS_DEBUG=1)
+  # skip bindings so that the binary won't attempt to link in emscripten stuff
+  # as we don't need that for debugging
+  target_compile_definitions(${DEBUG_TARGET} PRIVATE NO_BINDINGS=1)
 endif()
 
 if(BUILD_TESTING)

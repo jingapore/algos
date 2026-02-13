@@ -2,7 +2,9 @@
 #include <cstdint>
 #include <vector>
 
+#ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
+#endif
 #include <permutation/permutation.h>
 #include <permutation/trace.h>
 
@@ -13,7 +15,7 @@ permute_array(std::vector<int32_t> values) {
 
   permutation::Trace trace{};
 
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) || defined(IS_DEBUG)
 
   trace.emit = [](permutation::EventCode code, int32_t i, int32_t j,
                   void *user) {
@@ -32,6 +34,14 @@ permute_array(std::vector<int32_t> values) {
   return events;
 }
 
+#ifdef IS_DEBUG
+int main() {
+    return 0;
+}
+#endif
+
+#ifdef __EMSCRIPTEN__
+#ifndef NO_BINDINGS
 EMSCRIPTEN_BINDINGS(permutation_module) {
   emscripten::enum_<permutation::EventCode>("EventCode")
       .value("STAGE1_FIND_NON_DECREASING_SEQ_BREAKPOINT_COMPARE",
@@ -54,3 +64,5 @@ EMSCRIPTEN_BINDINGS(permutation_module) {
 
   emscripten::function("permute_array", &permute_array);
 }
+#endif
+#endif

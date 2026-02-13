@@ -25,20 +25,21 @@ RandomIt find_pivot_traced(const RandomIt first, const RandomIt last,
   return pivot;
 };
 
-template <std::random_access_iterator RandomIt, typename T, typename Less,
-          typename Tracer, typename Mapper>
-RandomIt upper_bound_impl(RandomIt first, RandomIt last, const T &value,
-                          Less less, Tracer trace, Mapper map_idx) {
+template <std::random_access_iterator RandomIt, typename Less, typename Tracer,
+          typename Mapper>
+RandomIt upper_bound_impl(RandomIt first, RandomIt last,
+                          const RandomIt reference, Less less, Tracer trace,
+                          Mapper map_idx) {
 
   using D = std::iter_difference_t<RandomIt>;
   RandomIt left = first;
   RandomIt right = last;
 
   while (left < right) {
-    trace.event(EventCode::STAGE2_FIND_SWAPPOINT_COMPARE, map_idx(left),
-                map_idx(right));
     RandomIt mid = left + (right - left) / 2;
-    if (less(value, *mid)) {
+    trace.event(EventCode::STAGE2_FIND_SWAPPOINT_COMPARE, map_idx(reference),
+                map_idx(mid));
+    if (less(*reference, *mid)) {
       right = mid;
     } else {
       left = mid + 1;
@@ -50,8 +51,8 @@ RandomIt upper_bound_impl(RandomIt first, RandomIt last, const T &value,
 template <std::random_access_iterator RandomIt, class Less, typename Tracer>
   requires std::indirect_strict_weak_order<Less, RandomIt>
 RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
-                            const std::iter_value_t<RandomIt> &value,
-                            const Less less, Tracer trace, const bool reverse) {
+                            const RandomIt reference, const Less less,
+                            Tracer trace, const bool reverse) {
   const int n = std::distance(begin, last);
   // TODO: include trace
   auto get_normalised_idx = [n, reverse](RandomIt it) { return 1; };
@@ -60,14 +61,16 @@ RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
     auto identity_map = [&begin](RandomIt it) -> int32_t {
       return (int32_t)std::distance(begin, it);
     };
-    return upper_bound_impl(first, last, value, less, trace, identity_map);
+    return upper_bound_impl(first, last, reference, less, trace, identity_map);
   } else {
     auto reverse_map = [&begin](std::reverse_iterator<RandomIt> it) -> int32_t {
       return (int32_t)std::distance(begin, it.base()) - 1;
     };
     auto rfirst = std::make_reverse_iterator(last);
     auto rlast = std::make_reverse_iterator(first);
-    auto rub = upper_bound_impl(rfirst, rlast, value, less, trace, reverse_map);
+    auto rub =
+        upper_bound_impl(rfirst, rlast, std::make_reverse_iterator(reference),
+                         less, trace, reverse_map);
     // -1 is to handle how reverse iterators translate to
     // forward iterators
     // https://stackoverflow.com/questions/71366118/why-is-reverse-iteratorbase-offset
@@ -84,8 +87,8 @@ void reverse_traced(RandomIt begin, RandomIt first, RandomIt last,
     return;
   --right;
   while (left < right) {
-    trace.event(EventCode::STAGE4_REVERSE_SWAP, distance(begin, left),
-                distance(begin, right));
+    trace.event(EventCode::STAGE4_REVERSE_SWAP, std::distance(begin, left),
+                std::distance(begin, right));
     std::iter_swap(left, right);
     ++left;
     --right;
