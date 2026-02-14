@@ -35,6 +35,7 @@ permute_array(std::vector<int32_t> values) {
 }
 
 #ifdef IS_DEBUG
+template class std::vector<permutation::TraceEvent>;
 template class std::vector<int>;
 int main() {
   std::vector<int> input_vec;
