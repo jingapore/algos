@@ -55,12 +55,13 @@ endif()
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   set(DEBUG_TARGET "${WASM_OUTPUT_NAME}_debug")
   message(STATUS "Debug Build detected: Creating '${DEBUG_TARGET}' target.")
-  add_executable(${DEBUG_TARGET} src/wasm_api.cpp)
-  target_link_libraries(${DEBUG_TARGET} PRIVATE knuth_permutation_algo_lib)
+  add_executable(${DEBUG_TARGET} src/wasm_api.cpp ${SOURCES})
   target_compile_definitions(${DEBUG_TARGET} PRIVATE IS_DEBUG=1)
   # skip bindings so that the binary won't attempt to link in emscripten stuff
   # as we don't need that for debugging
   target_compile_definitions(${DEBUG_TARGET} PRIVATE NO_BINDINGS=1)
+  target_include_directories(${DEBUG_TARGET}
+                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 endif()
 
 if(BUILD_TESTING)

@@ -26,12 +26,11 @@ RandomIt find_pivot_traced(const RandomIt first, const RandomIt last,
 };
 
 template <std::random_access_iterator RandomIt, typename Less, typename Tracer,
-          typename Mapper>
+          typename Mapper, typename T>
 RandomIt upper_bound_impl(RandomIt first, RandomIt last,
-                          const RandomIt reference, Less less, Tracer trace,
-                          Mapper map_idx) {
+                          const RandomIt reference, const T &reference_val,
+                          Less less, Tracer trace, Mapper map_idx) {
 
-  using D = std::iter_difference_t<RandomIt>;
   RandomIt left = first;
   RandomIt right = last;
 
@@ -39,7 +38,11 @@ RandomIt upper_bound_impl(RandomIt first, RandomIt last,
     RandomIt mid = left + (right - left) / 2;
     trace.event(EventCode::STAGE2_FIND_SWAPPOINT_COMPARE, map_idx(reference),
                 map_idx(mid));
-    if (less(*reference, *mid)) {
+    // we cannot dereference reference like *reference
+    // as the reverse_iterator will mess things up.
+    // so we just take in reference (as an iterator) for trace
+    // and also take in a constant val, reference_val.
+    if (less(reference_val, *mid)) {
       right = mid;
     } else {
       left = mid + 1;
@@ -54,23 +57,24 @@ RandomIt upper_bound_traced(RandomIt begin, RandomIt first, RandomIt last,
                             const RandomIt reference, const Less less,
                             Tracer trace, const bool reverse) {
   const int n = std::distance(begin, last);
-  // TODO: include trace
-  auto get_normalised_idx = [n, reverse](RandomIt it) { return 1; };
-
   if (!reverse) {
     auto identity_map = [&begin](RandomIt it) -> int32_t {
       return (int32_t)std::distance(begin, it);
     };
-    return upper_bound_impl(first, last, reference, less, trace, identity_map);
+    return upper_bound_impl(first, last, reference, *reference, less, trace,
+                            identity_map);
   } else {
+    // The base iterator refers to the element that is next (from the
+    // iterator_type perspective) to the element the reverse_iterator is
+    // currently pointing to. That is &*(this->base() - 1) == &*(*this).
     auto reverse_map = [&begin](std::reverse_iterator<RandomIt> it) -> int32_t {
-      return (int32_t)std::distance(begin, it.base()) - 1;
+      return (int32_t)std::distance(begin, it.base() - 1);
     };
     auto rfirst = std::make_reverse_iterator(last);
     auto rlast = std::make_reverse_iterator(first);
-    auto rub =
-        upper_bound_impl(rfirst, rlast, std::make_reverse_iterator(reference),
-                         less, trace, reverse_map);
+    auto rub = upper_bound_impl(rfirst, rlast,
+                                std::make_reverse_iterator(reference + 1),
+                                *reference, less, trace, reverse_map);
     // -1 is to handle how reverse iterators translate to
     // forward iterators
     // https://stackoverflow.com/questions/71366118/why-is-reverse-iteratorbase-offset
