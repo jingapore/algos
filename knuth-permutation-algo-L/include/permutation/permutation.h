@@ -6,9 +6,6 @@
 
 namespace permutation {
 
-template <std::random_access_iterator RandomIt>
-void reverse_traced(RandomIt begin, RandomIt first, RandomIt last, Trace trace);
-
 template <class RandomIt, class Less = std::less<>>
   requires std::indirect_strict_weak_order<Less, RandomIt> &&
            std::random_access_iterator<RandomIt>
