@@ -3,10 +3,8 @@
 #include <array>
 #include <functional>
 #include <gtest/gtest.h>
-#include <iostream>
 #include <iterator>
 
-// TODO: use test fixtures
 TEST(KnuthPermutationAlgoTest, ArrayManipulation) {
   std::array<int, 6> v{1, 2, 3, -4, -5, -6};
   auto pivot_itr = permutation::find_pivot_traced(

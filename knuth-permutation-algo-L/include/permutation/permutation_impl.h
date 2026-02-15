@@ -1,7 +1,6 @@
 #pragma once
 #include "permutation/trace.h"
 #include <cstdint>
-#include <iostream>
 #include <iterator>
 
 namespace permutation {
