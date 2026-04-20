@@ -1,17 +1,17 @@
-def _get_nodes(adj: list[list[int]]) -> list[int]:
-    return []
+from .utils import get_nodes
 
 
 def dfs_topo_sort(adj: list[list[int]]) -> list[int]:
-    nodes = _get_nodes(adj)
+    nodes = get_nodes(adj)
     finish: list[int] = []
     visited: set[int] = set()
 
     def dfs(node: int):
         visited.add(node)
         for child in adj[node]:
-            # check whether visited?
-            dfs(node)
+            if child not in visited:
+                # assume it's dag for now
+                dfs(child)
         finish.append(node)
         return
 
