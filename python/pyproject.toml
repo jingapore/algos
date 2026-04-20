@@ -10,4 +10,5 @@ dependencies = []
 members = [
     "packages/segment-tree",
     "packages/topo-sort",
+    "packages/cycle-detection",
 ]
