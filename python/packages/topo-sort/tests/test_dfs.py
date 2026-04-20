@@ -1,4 +1,4 @@
-from topo_sort import dfs_topo_sort
+from topo_sort import dfs_topo_sort, bfs_topo_sort
 from typing import Protocol, runtime_checkable
 
 
@@ -8,7 +8,7 @@ class TopoSort(Protocol):
 
 
 def test_singleroot(graph_single_root: list[list[int]]):
-    res = dfs_topo_sort(graph_single_root)
+    res = bfs_topo_sort(graph_single_root)
     for i in range(len(graph_single_root)):
         assert i in res
 
@@ -18,7 +18,7 @@ def test_singleroot(graph_single_root: list[list[int]]):
 
 
 def test_tworoots(graph_two_roots: list[list[int]]):
-    res = dfs_topo_sort(graph_two_roots)
+    res = bfs_topo_sort(graph_two_roots)
     for i in range(len(graph_two_roots)):
         assert i in res
 
