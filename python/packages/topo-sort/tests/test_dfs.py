@@ -1,11 +1,24 @@
 from topo_sort import dfs_topo_sort
 
 
-def test_dfs(graph_a: list[list[int]]):
-    res = dfs_topo_sort(graph_a)
-    for i in range(len(graph_a)):
+def test_dfs_singleroot(graph_single_root: list[list[int]]):
+    res = dfs_topo_sort(graph_single_root)
+    for i in range(len(graph_single_root)):
         assert i in res
 
     assert res.index(0) < res.index(1)
     assert res.index(2) < res.index(4)
     assert res.index(2) < res.index(3)
+
+
+def test_dfs_tworoots(graph_two_roots: list[list[int]]):
+    res = dfs_topo_sort(graph_two_roots)
+    for i in range(len(graph_two_roots)):
+        assert i in res
+
+    assert res.index(0) < res.index(1)
+    assert res.index(2) < res.index(4)
+    assert res.index(2) < res.index(3)
+    # both 5 and 0 are roots with deps on 1
+    assert res.index(5) < res.index(1)
+    assert res.index(0) < res.index(1)
