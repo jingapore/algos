@@ -1,7 +1,13 @@
 from topo_sort import dfs_topo_sort
+from typing import Protocol, runtime_checkable
 
 
-def test_dfs_singleroot(graph_single_root: list[list[int]]):
+@runtime_checkable
+class TopoSort(Protocol):
+    def sort(self, input: list[list[int]]) -> list[int]: ...
+
+
+def test_singleroot(graph_single_root: list[list[int]]):
     res = dfs_topo_sort(graph_single_root)
     for i in range(len(graph_single_root)):
         assert i in res
@@ -11,7 +17,7 @@ def test_dfs_singleroot(graph_single_root: list[list[int]]):
     assert res.index(2) < res.index(3)
 
 
-def test_dfs_tworoots(graph_two_roots: list[list[int]]):
+def test_tworoots(graph_two_roots: list[list[int]]):
     res = dfs_topo_sort(graph_two_roots)
     for i in range(len(graph_two_roots)):
         assert i in res
