@@ -6,6 +6,7 @@ from typing import Protocol, runtime_checkable
 class TopoSort(Protocol):
     def sort(self, input: list[list[int]]) -> list[int]: ...
 
+#TODO: test for cycles
 
 def test_singleroot(graph_single_root: list[list[int]]):
     res = bfs_topo_sort(graph_single_root)
