@@ -29,6 +29,16 @@ name = "cycle-detection"
 version = "0.1.0"
 source = { editable = "packages/cycle-detection" }
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.3" }]
+
 [[package]]
 name = "iniconfig"
 version = "2.3.0"

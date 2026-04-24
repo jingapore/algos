@@ -1,2 +1,1 @@
-def hello() -> str:
-    return "Hello from cycle-detection!"
+from .dfs import *
