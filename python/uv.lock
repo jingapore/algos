@@ -6,8 +6,10 @@ requires-python = ">=3.14"
 members = [
     "algos",
     "cycle-detection",
+    "euler-tour",
     "segment-tree",
     "topo-sort",
+    "utils",
 ]
 
 [[package]]
@@ -35,6 +37,25 @@ dev = [
 ]
 
 [package.metadata]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.3" }]
+
+[[package]]
+name = "euler-tour"
+version = "0.1.0"
+source = { editable = "packages/euler_tour" }
+dependencies = [
+    { name = "utils" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "utils", editable = "packages/utils" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.0.3" }]
@@ -110,3 +131,8 @@ dev = [
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.0.3" }]
+
+[[package]]
+name = "utils"
+version = "0.1.0"
+source = { editable = "packages/utils" }

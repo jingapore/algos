@@ -11,4 +11,6 @@ members = [
     "packages/segment-tree",
     "packages/topo-sort",
     "packages/cycle-detection",
+    "packages/euler_tour",
+    "packages/utils",
 ]
