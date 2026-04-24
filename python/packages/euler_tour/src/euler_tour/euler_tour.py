@@ -6,8 +6,8 @@ class EulerTour:
     def __init__(self, adj_list: Mapping[int, list[int]]):
         self.adj_list: Mapping[int, list[int]] = adj_list
         self.nodes: list[int] = get_nodes(self.adj_list)
-        self.start_timer: MutableMapping[int, int]
-        self.end_timer: MutableMapping[int, int]
+        self.start_timer: MutableMapping[int, int] = dict()
+        self.end_timer: MutableMapping[int, int] = dict()
         self.timer: int = 0
         if len(self.nodes) > 0:
             self.tour(self.nodes[0])
