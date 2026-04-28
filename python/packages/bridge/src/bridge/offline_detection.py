@@ -17,20 +17,28 @@ def offline_detect(adj_list: Mapping[int, list[int]]) -> list[tuple[int, int]]:
 
     def dfs(node: int, parent: int | None) -> int:
         nonlocal timer
-        nonlocal bridges
-        nonlocal node_states
         state = State(time_in=timer, lowest_time_from_traversal=timer)
+        # need to set here else we won't catch a backeedge
+        node_states[node] = state
+
         timer += 1
         for child in adj_list[node]:
             if child == parent:
                 continue
-            child_lowest_time = dfs(child, node)
-            if child_lowest_time > state.time_in:
-                bridges.append((node, child))
-            state.lowest_time_from_traversal = min(
-                state.lowest_time_from_traversal, child_lowest_time
-            )
-        node_states[node] = state
+            child_state: State | None = node_states[child]
+            if child_state is None:
+                child_lowest_time = dfs(child, node)
+                if child_lowest_time > state.time_in:
+                    bridges.append((node, child))
+                state.lowest_time_from_traversal = min(
+                    state.lowest_time_from_traversal, child_lowest_time
+                )
+            else:
+                # backedge, don't dfs into child
+                state.lowest_time_from_traversal = min(
+                    state.lowest_time_from_traversal, child_state.time_in
+                )
+
         return state.lowest_time_from_traversal
 
     for node in nodes:
