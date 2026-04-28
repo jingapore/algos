@@ -5,8 +5,8 @@ requires-python = ">=3.14"
 [manifest]
 members = [
     "algos",
+    "bridge",
     "cycle-detection",
-    "euler-tour",
     "segment-tree",
     "topo-sort",
     "utils",
@@ -16,6 +16,25 @@ members = [
 name = "algos"
 version = "0.1.0"
 source = { virtual = "." }
+
+[[package]]
+name = "bridge"
+version = "0.1.0"
+source = { editable = "packages/bridge" }
+dependencies = [
+    { name = "utils" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "utils", editable = "packages/utils" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.3" }]
 
 [[package]]
 name = "colorama"
@@ -37,25 +56,6 @@ dev = [
 ]
 
 [package.metadata]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.0.3" }]
-
-[[package]]
-name = "euler-tour"
-version = "0.1.0"
-source = { editable = "packages/euler_tour" }
-dependencies = [
-    { name = "utils" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "utils", editable = "packages/utils" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.0.3" }]
