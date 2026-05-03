@@ -12,9 +12,10 @@ def get_prefix_map(s: str) -> list[int]:
             # so now we are at suffix[i] and we realise there's no match, and we want to wind back
             # meaning the prefioux suffix, i.e. suffix[i-1] had a match and we want to "relax" that down, which means we look at
             # pi[k-1] for that suffix
+            # one invariant is that s[i] == s[pi[i]-1] (-1 is to handle 0 indexing) for pi[i] > 0
             k = pi[k - 1]
         if s[k] == s[i]:
-            # at this point, we know that s[i-1] is matched by a longest prefix of length pi[i-1]
+            # at this point, we know that s[i-1] is matched by a prefix of length pi[i-1] (this might not be the longest) and also if we reach this condition we can just safely increment k += 1
             # if there's a match at s[i], we extend that prefix
             k += 1
         # we do not need to have this within the (if s[k] == s[i]) loop
