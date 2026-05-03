@@ -15,4 +15,5 @@ members = [
     "packages/utils",
     "bridge",
     "packages/bridge",
+    "packages/string",
 ]

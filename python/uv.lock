@@ -8,6 +8,7 @@ members = [
     "bridge",
     "cycle-detection",
     "segment-tree",
+    "string",
     "topo-sort",
     "utils",
 ]
@@ -116,6 +117,21 @@ wheels = [
 name = "segment-tree"
 version = "0.1.0"
 source = { editable = "packages/segment-tree" }
+
+[[package]]
+name = "string"
+version = "0.1.0"
+source = { editable = "packages/string" }
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.3" }]
 
 [[package]]
 name = "topo-sort"
