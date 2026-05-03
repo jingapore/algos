@@ -6,3 +6,5 @@ def test_get_prefix_map():
     assert a == [0, 1, 2]
     abcc = get_prefix_map("abccabc")
     assert abcc == [0, 0, 0, 0, 1, 2, 3]
+    aab = get_prefix_map("aabaaab")
+    assert aab == [0, 1, 0, 1, 2, 2, 3]
