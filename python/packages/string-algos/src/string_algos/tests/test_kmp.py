@@ -11,5 +11,9 @@ def test_get_prefix_map():
 
 
 def test_kmp():
-    abcc_res = kmp_search("", "abccabc")
-    assert list(abcc_res) == []
+    abcc_empty_res = kmp_search("", "abccabc")
+    assert list(abcc_empty_res) == []
+    abcc_res = kmp_search("babccabc", "abccabc")
+    assert list(abcc_res) == [1]
+    abcc_res_dual = kmp_search("babccabccabc", "abccabc")
+    assert list(abcc_res_dual) == [1, 5]
