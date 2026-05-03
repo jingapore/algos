@@ -17,3 +17,4 @@ def test_kmp():
     assert list(abcc_res) == [1]
     abcc_res_dual = kmp_search("babccabccabc", "abccabc")
     assert list(abcc_res_dual) == [1, 5]
+    assert list(kmp_search("aab", "ab")) == [1]
