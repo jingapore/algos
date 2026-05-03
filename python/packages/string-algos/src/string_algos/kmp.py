@@ -5,18 +5,18 @@ def kmp_search(s: str, pat: str) -> Iterable[int]:
     prefix_map = get_prefix_map(pat)
     s_len = len(s)
     pat_len = len(pat)
-    pat_idx = 0
+    pat_match_len = 0
 
     for s_idx in range(s_len):
-        while pat_idx > 0 and s[s_idx] != pat[pat_idx]:
+        while pat_match_len > 0 and s[s_idx] != pat[pat_match_len]:
             # prefix_map returns len so pat_idx will land us at the right idx
-            pat_idx = prefix_map[pat_idx - 1]
+            pat_match_len = prefix_map[pat_match_len - 1]
 
-        if s[s_idx] == pat[pat_idx]:
-            pat_idx += 1
-            if pat_idx == pat_len:
+        if s[s_idx] == pat[pat_match_len]:
+            pat_match_len += 1
+            if pat_match_len == pat_len:
                 yield s_idx - pat_len + 1
-                pat_idx = prefix_map[pat_idx - 1]
+                pat_match_len = prefix_map[-1]
 
 
 # map returns length of prefix, not index, that matches suffix ending with map[i] (ending is inclusive)
