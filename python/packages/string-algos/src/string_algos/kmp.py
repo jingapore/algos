@@ -14,7 +14,7 @@ def get_prefix_map(s: str) -> list[int]:
             # pi[k-1] for that suffix
             # one invariant is that s[i] == s[pi[i]-1] (-1 is to handle 0 indexing) for pi[i] > 0
             k = pi[k - 1]
-        # as tempting as it is, note that we can't substitute (s[k] == s[i]) with (k != 0) because that fails when we start this iteration of for i in range(1, n) with k == 0
+        # as tempting as it is, note that we can't substitute (s[k] == s[i]) with (k != 0) because that fails when we start this iteration of for i in range(1, n) with k == 0 or when we start with k > 0 but k is driven down to 0 within the while loop
         if s[k] == s[i]:
             # at this point, we know that s[i-1] is matched by a prefix of length pi[i-1] (this might not be the longest) and also if we reach this condition we can just safely increment k += 1
             # if there's a match at s[i], we extend that prefix
