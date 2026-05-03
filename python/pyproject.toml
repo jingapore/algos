@@ -16,4 +16,6 @@ members = [
     "bridge",
     "packages/bridge",
     "packages/string",
+    "shortest-paths",
+    "packages/shortest-paths",
 ]

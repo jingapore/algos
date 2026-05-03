@@ -8,7 +8,7 @@ members = [
     "bridge",
     "cycle-detection",
     "segment-tree",
-    "string",
+    "shortest-paths",
     "topo-sort",
     "utils",
 ]
@@ -119,19 +119,15 @@ version = "0.1.0"
 source = { editable = "packages/segment-tree" }
 
 [[package]]
-name = "string"
+name = "shortest-paths"
 version = "0.1.0"
-source = { editable = "packages/string" }
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
+source = { editable = "packages/shortest-paths" }
+dependencies = [
+    { name = "utils" },
 ]
 
 [package.metadata]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.0.3" }]
+requires-dist = [{ name = "utils", editable = "packages/utils" }]
 
 [[package]]
 name = "topo-sort"
